@@ -54,7 +54,7 @@ if uploaded_file is not None:
 
   buffer = io.BytesIO()
   
-  with pd.ExcelWriter(buffer, engine='xlswriter') as writer:
+  with pd.ExcelWriter(buffer, engine='xlsxwriter') as writer:
     datospred.to_excel(writer, sheet_name="prueba", index=False)
     writer.save()
 
