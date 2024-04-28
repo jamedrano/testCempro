@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import streamlit as st
+import io
 
 from xgboost import XGBRegressor
 from xgboost import XGBClassifier
@@ -47,5 +48,20 @@ if uploaded_file is not None:
   modeloXGB = XGBRegressor(booster='gblinear', eta=etapar, reg_lambda=lambdapar)
   modeloXGB.fit(X_train, y_train)
   pred_test =  modeloXGB.predict(X_test)
-    
+  
   st.write(mt.mean_absolute_percentage_error(y_test, pred_test))
+  datospred = pd.DataFrame({'Real':np.array(y_test), 'Pred':pred_test})
+
+  buffer = io.BytesIO()
+  
+  with pd.ExcelWriter(buffer) as writer:
+    datospred.to_excel(writer, sheet_name="prueba", index=False)
+    writer.save()
+
+    download2 = st.download_button(
+        label="Download data as Excel",
+        data=buffer,
+        file_name='prueba.xlsx',
+        mime='application/vnd.ms-excel'
+    )
+    
