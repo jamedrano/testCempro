@@ -5,4 +5,5 @@ xgboost
 numba
 scikit-learn
 openpyxl
+xlsxwriter
 
