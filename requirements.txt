@@ -1,4 +1,5 @@
 numpy
+streamlit
 matplotlib
 xgboost
 scikit-learn
