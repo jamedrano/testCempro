@@ -10,12 +10,12 @@ from sklearn.model_selection import train_test_split
 import sklearn.metrics as mt
 from sklearn.model_selection import GridSearchCV
 
-uploaded_file = st.file_uploader(“Choose a file”)
+uploaded_file = st.file_uploader("Choose a file")
 
 cemento = pd.read_excel(uploaded_file, sheet_name="DATOS 2")
 
 cemento.columns = cemento.columns.str.strip()
-cemento['Tipo de Cemento'] = cemento['Tipo de Cemento'].str.strip()
+cemento["Tipo de Cemento"] = cemento["Tipo de Cemento"].str.strip()
 cemento['Molino'] = cemento['Molino'].str.strip()
 
 cemGUM1 = cemento[(cemento['Tipo de Cemento']=="Cemento GU") & (cemento['Molino']=="Molino 1")]
