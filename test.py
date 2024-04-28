@@ -34,6 +34,7 @@ if uploaded_file is not None:
   axs[1,0].set_title("7 dias")
   axs[1,1].boxplot(cemGUM1['R28D'])
   axs[1,1].set_title("28 dias")
+  st.pyplot(fig)
   
   etapar = 0.08
   lambdapar = 5
