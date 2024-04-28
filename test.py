@@ -56,7 +56,7 @@ if uploaded_file is not None:
   
   with pd.ExcelWriter(buffer) as writer:
     datospred.to_excel(writer, sheet_name="prueba", index=False)
-    writer.save()
+    # writer.save()
 
     download2 = st.download_button(
         label="Download data as Excel",
