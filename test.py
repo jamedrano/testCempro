@@ -23,6 +23,17 @@ if uploaded_file is not None:
   cemGUM2 = cemento[(cemento['Tipo de Cemento']=="Cemento GU") & (cemento['Molino']=="Molino2")]
   cemHEM1 = cemento[(cemento['Tipo de Cemento']=="Cemento HE") & (cemento['Molino']=="Molino 1")]
   cemHEM2 = cemento[(cemento['Tipo de Cemento']=="Cemento HE") & (cemento['Molino']=="Molino2")]
+
+  fig, axs = plt.subplots(2,2)
+  fig.set_size_inches(10,6)
+  axs[0,0].boxplot(cemGUM1['R1D'])
+  axs[0,0].set_title("1 dia")
+  axs[0,1].boxplot(cemGUM1['R3D'])
+  axs[0,1].set_title("3 dias")
+  axs[1,0].boxplot(cemGUM1['R7D'])
+  axs[1,0].set_title("7 dias")
+  axs[1,1].boxplot(cemGUM1['R28D'])
+  axs[1,1].set_title("28 dias")
   
   etapar = 0.08
   lambdapar = 5
