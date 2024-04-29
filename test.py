@@ -14,6 +14,8 @@ import sklearn.metrics as mt
 #Setting up web app page
 st.set_page_config(page_title='App de Prueba de Streamlit', page_icon=None, layout="wide")
 
+tab1, tab2, tab3 = st.tabs(['Datos', 'Graficos', 'Modelo'])
+
 #Creating section in sidebar
 st.sidebar.write("****A) File upload****")
 
@@ -71,46 +73,47 @@ if uploaded_file is not None:
 
 #=====================================================================================================
 ## 1. Overview of the data
-    st.write( '### 1. Dataset Preview ')
-
-    try:
-      #View the dataframe in streamlit
-      st.dataframe(data, use_container_width=True)
-
-    except:
-      st.info("The file wasn't read properly. Please ensure that the input parameters are correctly defined.")
-      sys.exit()
+    with tab1:
+        st.write( '### 1. Dataset Preview ')
+    
+        try:
+          #View the dataframe in streamlit
+          st.dataframe(data, use_container_width=True)
+    
+        except:
+          st.info("The file wasn't read properly. Please ensure that the input parameters are correctly defined.")
+          sys.exit()
 
 ## 2. Understanding the data
-    st.write( '### 2. High-Level Overview ')
-
-    #Creating radio button and sidebar simulataneously
-    selected = st.sidebar.radio( "**B) What would you like to know about the data?**", 
-                                ["Data Dimensions",
-                                 "Field Descriptions",
-                                "Summary Statistics", 
-                                "Value Counts of Fields"])
-
-    #Showing field types
-    if selected == 'Field Descriptions':
-        fd = data.dtypes.reset_index().rename(columns={'index':'Field Name',0:'Field Type'}).sort_values(by='Field Type',ascending=False).reset_index(drop=True)
-        st.dataframe(fd, use_container_width=True)
-
-    #Showing summary statistics
-    elif selected == 'Summary Statistics':
-        ss = pd.DataFrame(data.describe(include='all').round(2).fillna(''))
-        st.dataframe(ss, use_container_width=True)
-
-    #Showing value counts of object fields
-    elif selected == 'Value Counts of Fields':
-        # creating radio button and sidebar simulataneously if this main selection is made
-        sub_selected = st.sidebar.radio( "*Which field should be investigated?*",data.select_dtypes('object').columns)
-        vc = data[sub_selected].value_counts().reset_index().rename(columns={'count':'Count'}).reset_index(drop=True)
-        st.dataframe(vc, use_container_width=True)
-
-    #Showing the shape of the dataframe
-    else:
-        st.write('###### The data has the dimensions :',data.shape)
+        st.write( '### 2. High-Level Overview ')
+    
+        #Creating radio button and sidebar simulataneously
+        selected = st.sidebar.radio( "**B) What would you like to know about the data?**", 
+                                    ["Data Dimensions",
+                                     "Field Descriptions",
+                                    "Summary Statistics", 
+                                    "Value Counts of Fields"])
+    
+        #Showing field types
+        if selected == 'Field Descriptions':
+            fd = data.dtypes.reset_index().rename(columns={'index':'Field Name',0:'Field Type'}).sort_values(by='Field Type',ascending=False).reset_index(drop=True)
+            st.dataframe(fd, use_container_width=True)
+    
+        #Showing summary statistics
+        elif selected == 'Summary Statistics':
+            ss = pd.DataFrame(data.describe(include='all').round(2).fillna(''))
+            st.dataframe(ss, use_container_width=True)
+    
+        #Showing value counts of object fields
+        elif selected == 'Value Counts of Fields':
+            # creating radio button and sidebar simulataneously if this main selection is made
+            sub_selected = st.sidebar.radio( "*Which field should be investigated?*",data.select_dtypes('object').columns)
+            vc = data[sub_selected].value_counts().reset_index().rename(columns={'count':'Count'}).reset_index(drop=True)
+            st.dataframe(vc, use_container_width=True)
+    
+        #Showing the shape of the dataframe
+        else:
+            st.write('###### The data has the dimensions :',data.shape)
 
 #=====================================================================================================
 ## 3. Visualisation
