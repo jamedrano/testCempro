@@ -10,35 +10,34 @@ from xgboost import XGBClassifier
 from sklearn.model_selection import train_test_split
 import sklearn.metrics as mt
 
+if st.button("Cargar el archivo de datos para entrenar el modelo"):
 
-uploaded_file = st.file_uploader("Choose a file")
-
-
-
-if uploaded_file is not None:
-  cemento = pd.read_excel(uploaded_file, sheet_name="DATOS 2")
-
-  cemento.columns = cemento.columns.str.strip()
-  cemento["Tipo de Cemento"] = cemento["Tipo de Cemento"].str.strip()
-  cemento['Molino'] = cemento['Molino'].str.strip()
+  uploaded_file = st.file_uploader("Seleccionar el archivo de Excel con los datos")
+    if uploaded_file is not None:
+      cemento = pd.read_excel(uploaded_file, sheet_name="DATOS 2")
+      cemento.columns = cemento.columns.str.strip()
+      cemento["Tipo de Cemento"] = cemento["Tipo de Cemento"].str.strip()
+      cemento['Molino'] = cemento['Molino'].str.strip()
     
-  cemGUM1 = cemento[(cemento['Tipo de Cemento']=="Cemento GU") & (cemento['Molino']=="Molino 1")]
-  cemGUM2 = cemento[(cemento['Tipo de Cemento']=="Cemento GU") & (cemento['Molino']=="Molino2")]
-  cemHEM1 = cemento[(cemento['Tipo de Cemento']=="Cemento HE") & (cemento['Molino']=="Molino 1")]
-  cemHEM2 = cemento[(cemento['Tipo de Cemento']=="Cemento HE") & (cemento['Molino']=="Molino2")]
-  
-  fig, axs = plt.subplots(2,2)
-  fig.set_size_inches(10,6)
-  axs[0,0].boxplot(cemGUM1['R1D'])
-  axs[0,0].set_title("1 dia")
-  axs[0,1].boxplot(cemGUM1['R3D'])
-  axs[0,1].set_title("3 dias")
-  axs[1,0].boxplot(cemGUM1['R7D'])
-  axs[1,0].set_title("7 dias")
-  axs[1,1].boxplot(cemGUM1['R28D'])
-  axs[1,1].set_title("28 dias")
-  st.pyplot(fig)
-    
+      cemGUM1 = cemento[(cemento['Tipo de Cemento']=="Cemento GU") & (cemento['Molino']=="Molino 1")]
+      cemGUM2 = cemento[(cemento['Tipo de Cemento']=="Cemento GU") & (cemento['Molino']=="Molino2")]
+      cemHEM1 = cemento[(cemento['Tipo de Cemento']=="Cemento HE") & (cemento['Molino']=="Molino 1")]
+      cemHEM2 = cemento[(cemento['Tipo de Cemento']=="Cemento HE") & (cemento['Molino']=="Molino2")]
+
+if st.button("Visualizar los Boxplots de la Resistencia"):
+    fig, axs = plt.subplots(2,2)
+    fig.set_size_inches(10,6)
+    axs[0,0].boxplot(cemGUM1['R1D'])
+    axs[0,0].set_title("1 dia")
+    axs[0,1].boxplot(cemGUM1['R3D'])
+    axs[0,1].set_title("3 dias")
+    axs[1,0].boxplot(cemGUM1['R7D'])
+    axs[1,0].set_title("7 dias")
+    axs[1,1].boxplot(cemGUM1['R28D'])
+    axs[1,1].set_title("28 dias")
+    st.pyplot(fig)
+
+if button("Entrenar el modelo"):
   etapar = 0.08
   lambdapar = 5
     
@@ -50,8 +49,9 @@ if uploaded_file is not None:
   pred_test =  modeloXGB.predict(X_test)
   
   st.write(mt.mean_absolute_percentage_error(y_test, pred_test))
-  datospred = pd.DataFrame({'Real':np.array(y_test), 'Pred':pred_test})
 
+if button("Descargar los datos"):
+  datospred = pd.DataFrame({'Real':np.array(y_test), 'Pred':pred_test})
   buffer = io.BytesIO()
   
   with pd.ExcelWriter(buffer, engine='xlsxwriter') as writer:
