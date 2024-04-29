@@ -163,7 +163,6 @@ if uploaded_file is not None:
         modeloXGB.fit(X_train, y_train)
         pred_test =  modeloXGB.predict(X_test)
         st.write(mt.mean_absolute_percentage_error(y_test, pred_test))
-        fig2 = plt.scatter(y_test, pred_test)
-        st.pyplot(fig2)
+       
             
             
