@@ -19,6 +19,7 @@ if st.button("Cargar el archivo de datos para entrenar el modelo"):
       st.session_state['cemento'].columns = st.session_state['cemento'].columns.str.strip()
       st.session_state['cemento']["Tipo de Cemento"] = st.session_state['cemento']["Tipo de Cemento"].str.strip()
       st.session_state['cemento']['Molino'] = st.session_state['cemento']['Molino'].str.strip
+      st.dataframe(st.session_state.cemento)
 
       if 'cemGUM1' not in st.session_state:    
         st.session_state['cemGUM1'] = cemento[(cemento['Tipo de Cemento']=="Cemento GU") & (cemento['Molino']=="Molino 1")]
