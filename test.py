@@ -152,7 +152,7 @@ if uploaded_file is not None:
             st.pyplot(fig)
 
 #=====================================================================================================
-## 3. Visualisation
+## 4. Model
     with tab4:
         etapar = 0.08
         lambdapar = 5
@@ -170,5 +170,19 @@ if uploaded_file is not None:
         datosprueba = pd.DataFrame({'ytest':y_test, 'pred':pred_test})
         st.dataframe(datosprueba)
         
-            
-            
+#=====================================================================================================
+## 4. Model
+    with tab5:
+        buffer = io.BytesIO()
+  
+        with pd.ExcelWriter(buffer, engine='xlsxwriter') as writer:
+            datospred.to_excel(writer, sheet_name="prueba", index=False)
+            writer.close()
+        
+            download2 = st.download_button(
+                label="Download data as Excel",
+                data=buffer,
+                file_name='prueba.xlsx',
+                mime='application/vnd.ms-excel'
+            )
+                    
