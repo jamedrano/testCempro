@@ -14,7 +14,7 @@ import sklearn.metrics as mt
 #Setting up web app page
 st.set_page_config(page_title='App de Prueba de Streamlit', page_icon=None, layout="wide")
 
-tab1, tab2, tab3 = st.tabs(['Datos', 'Graficos', 'Modelo'])
+tab1, tab2, tab3, tab4, tab5 = st.tabs(['Datos', 'Descripcion Datos', 'Graficos', 'Modelo', 'Descargar Datos'])
 
 #Creating section in sidebar
 st.sidebar.write("****A) File upload****")
@@ -56,10 +56,10 @@ if uploaded_file is not None:
                 #Reading the excel file
                 data = pd.read_excel(file_path,header=h,sheet_name=sh,engine='openpyxl')
             except:
-                st.info("File is not recognised as an Excel file.")
+                st.infdo("File is not recognised as an Excel file.")
                 sys.exit()
     
-        elif ft == 'csv':
+        elif ft == 'csv': 
             try:
                 #Reading the csv file
                 data = pd.read_csv(file_path)
@@ -71,6 +71,19 @@ if uploaded_file is not None:
 
     data = load_data(file_path,ft,sh,h)
 
+    @st.cache_data(experimental_allow_widgets=True)
+    def preprocess(data):
+        data.columns = data.columns.str.strip()
+        data['Tipo de Cemento'] = data['Tipo de Cemento'].str.strip()
+        data['Molino'] = data['Molino'].str.strip()      
+        cemGUM1 = data[(data['Tipo de Cemento']=='Cemento GU')&(data['Molino']=='Molino 1')]
+        cemGUM2 = data[(data['Tipo de Cemento']=='Cemento GU')&(data['Molino']=='Molino2')]
+        cemHEM1 = data[(data['Tipo de Cemento']=='Cemento HE')&(data['Molino']=='Molino 1')]
+        cemHEM2 = data[(data['Tipo de Cemento']=='Cemento HE')&(data['Molino']=='Molino2')]
+        datasets = [cemGU1, cemGUM2, cemHEM1, cemHEM2]
+        return datasets
+
+    cemGUM1, cemGUM2, cemHEM1, cemHEM2 = preprocess(data)
 #=====================================================================================================
 ## 1. Overview of the data
     with tab1:
@@ -118,16 +131,23 @@ if uploaded_file is not None:
 
 #=====================================================================================================
 ## 3. Visualisation
-
-    #Selecting whether visualisation is required
-    vis_select = st.sidebar.checkbox("**C) Is visualisation required for this dataset?**")
-
-    if vis_select:
-
-        st.write( '### 3. Visual Insights ')
-
-        #Creating a PyGWalker Dashboard
-        walker = pyg.walk(data, return_html=True)
-        st.components.v1.html(walker, width=1100, height=800)  #Adjust width and height as needed
-
-
+    with tab3:
+        
+        #Selecting whether visualisation is required
+        vis_select = st.sidebar.checkbox("**C) Is visualisation required for this dataset?**")
+    
+        if vis_select:
+    
+            st.write( '### 3. Visual Insights ')
+            fig, axs = plt.subplots(2,2)
+            fig.set_size_inches(10,6)
+            axs[0,0].boxplot(cemGUM1['R1D'])
+            axs[0,0].set_title("1 dia")
+            axs[0,1].boxplot(cemGUM1['R3D'])
+            axs[0,1].set_title("3 dias")
+            axs[1,0].boxplot(cemGUM1['R7D'])
+            axs[1,0].set_title("7 dias")
+            axs[1,1].boxplot(cemGUM1['R28D'])
+            axs[1,1].set_title("28 dias")
+            st.pyplot(fig)
+            
