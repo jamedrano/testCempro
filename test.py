@@ -80,7 +80,7 @@ if uploaded_file is not None:
         cemGUM2 = data[(data['Tipo de Cemento']=='Cemento GU')&(data['Molino']=='Molino2')]
         cemHEM1 = data[(data['Tipo de Cemento']=='Cemento HE')&(data['Molino']=='Molino 1')]
         cemHEM2 = data[(data['Tipo de Cemento']=='Cemento HE')&(data['Molino']=='Molino2')]
-        datasets = [cemGU1, cemGUM2, cemHEM1, cemHEM2]
+        datasets = [cemGUM1, cemGUM2, cemHEM1, cemHEM2]
         return datasets
 
     cemGUM1, cemGUM2, cemHEM1, cemHEM2 = preprocess(data)
