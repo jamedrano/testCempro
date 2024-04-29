@@ -85,6 +85,7 @@ if uploaded_file is not None:
           sys.exit()
 
 ## 2. Understanding the data
+    with tab2:
         st.write( '### 2. High-Level Overview ')
     
         #Creating radio button and sidebar simulataneously
