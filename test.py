@@ -13,7 +13,7 @@ import sklearn.metrics as mt
 if st.button("Cargar el archivo de datos para entrenar el modelo"):
 
   uploaded_file = st.file_uploader("Seleccionar el archivo de Excel con los datos")
-    if uploaded_file is not None:
+  if uploaded_file is not None:
       cemento = pd.read_excel(uploaded_file, sheet_name="DATOS 2")
       cemento.columns = cemento.columns.str.strip()
       cemento["Tipo de Cemento"] = cemento["Tipo de Cemento"].str.strip()
