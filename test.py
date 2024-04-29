@@ -16,19 +16,19 @@ if st.button("Cargar el archivo de datos para entrenar el modelo"):
   if uploaded_file is not None:
       if 'cemento' not in st.session_state:
         st.session_state['cemento'] = pd.read_excel(uploaded_file, sheet_name="DATOS 2")
-      st.session_state['cemento'].columns = st.session_state['cemento'].columns.str.strip()
-      st.session_state['cemento']["Tipo de Cemento"] = st.session_state['cemento']["Tipo de Cemento"].str.strip()
-      st.session_state['cemento']['Molino'] = st.session_state['cemento']['Molino'].str.strip
-      st.dataframe(st.session_state.cemento)
+        st.session_state['cemento'].columns = st.session_state['cemento'].columns.str.strip()
+        st.session_state['cemento']["Tipo de Cemento"] = st.session_state['cemento']["Tipo de Cemento"].str.strip()
+        st.session_state['cemento']['Molino'] = st.session_state['cemento']['Molino'].str.strip
+        st.dataframe(st.session_state.cemento)
 
-      if 'cemGUM1' not in st.session_state:    
-        st.session_state['cemGUM1'] = cemento[(cemento['Tipo de Cemento']=="Cemento GU") & (cemento['Molino']=="Molino 1")]
-      if 'cemGUM2' not in st.session_state:
-        st.session_state['cemGUM2'] = cemento[(cemento['Tipo de Cemento']=="Cemento GU") & (cemento['Molino']=="Molino2")]
-      if 'cemHEM1' not in st.session_state:
-        st.session_state['cemHEM1'] = cemento[(cemento['Tipo de Cemento']=="Cemento HE") & (cemento['Molino']=="Molino 1")]
-      if 'cemHEM2' not in st.session_state:
-        st.session_state['cemHEM2'] = cemento[(cemento['Tipo de Cemento']=="Cemento HE") & (cemento['Molino']=="Molino2")]
+        if 'cemGUM1' not in st.session_state:    
+          st.session_state['cemGUM1'] = cemento[(cemento['Tipo de Cemento']=="Cemento GU") & (cemento['Molino']=="Molino 1")]
+        if 'cemGUM2' not in st.session_state:
+          st.session_state['cemGUM2'] = cemento[(cemento['Tipo de Cemento']=="Cemento GU") & (cemento['Molino']=="Molino2")]
+        if 'cemHEM1' not in st.session_state:
+          st.session_state['cemHEM1'] = cemento[(cemento['Tipo de Cemento']=="Cemento HE") & (cemento['Molino']=="Molino 1")]
+        if 'cemHEM2' not in st.session_state:
+          st.session_state['cemHEM2'] = cemento[(cemento['Tipo de Cemento']=="Cemento HE") & (cemento['Molino']=="Molino2")]
 
 if st.button("Visualizar los Boxplots de la Resistencia"):
     fig, axs = plt.subplots(2,2)
