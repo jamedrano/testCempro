@@ -18,22 +18,26 @@ if st.button("Cargar el archivo de datos para entrenar el modelo"):
       cemento.columns = cemento.columns.str.strip()
       cemento["Tipo de Cemento"] = cemento["Tipo de Cemento"].str.strip()
       cemento['Molino'] = cemento['Molino'].str.strip()
-    
-      cemGUM1 = cemento[(cemento['Tipo de Cemento']=="Cemento GU") & (cemento['Molino']=="Molino 1")]
-      cemGUM2 = cemento[(cemento['Tipo de Cemento']=="Cemento GU") & (cemento['Molino']=="Molino2")]
-      cemHEM1 = cemento[(cemento['Tipo de Cemento']=="Cemento HE") & (cemento['Molino']=="Molino 1")]
-      cemHEM2 = cemento[(cemento['Tipo de Cemento']=="Cemento HE") & (cemento['Molino']=="Molino2")]
+
+      if 'cemGUM1' not in st.session_state:    
+        st.session_state['cemGUM1'] = cemento[(cemento['Tipo de Cemento']=="Cemento GU") & (cemento['Molino']=="Molino 1")]
+      if 'cemGUM2' not in st.session_state:
+        st.session_state['cemGUM2'] = cemento[(cemento['Tipo de Cemento']=="Cemento GU") & (cemento['Molino']=="Molino2")]
+      if 'cemHEM1' not in st.session_state:
+        st.session_state['cemHEM1'] = cemento[(cemento['Tipo de Cemento']=="Cemento HE") & (cemento['Molino']=="Molino 1")]
+      if 'cemHEM2' not in st.session_state:
+        st.session_state['cemHEM2'] = cemento[(cemento['Tipo de Cemento']=="Cemento HE") & (cemento['Molino']=="Molino2")]
 
 if st.button("Visualizar los Boxplots de la Resistencia"):
     fig, axs = plt.subplots(2,2)
     fig.set_size_inches(10,6)
-    axs[0,0].boxplot(cemGUM1['R1D'])
+    axs[0,0].boxplot(st.session_state['cemGUM1']['R1D'])
     axs[0,0].set_title("1 dia")
-    axs[0,1].boxplot(cemGUM1['R3D'])
+    axs[0,1].boxplot(st.session_state['cemGUM1']['R3D'])
     axs[0,1].set_title("3 dias")
-    axs[1,0].boxplot(cemGUM1['R7D'])
+    axs[1,0].boxplot(st.session_state['cemGUM1']['R7D'])
     axs[1,0].set_title("7 dias")
-    axs[1,1].boxplot(cemGUM1['R28D'])
+    axs[1,1].boxplot(st.session_state['cemGUM1']['R28D'])
     axs[1,1].set_title("28 dias")
     st.pyplot(fig)
 
@@ -41,8 +45,8 @@ if st.button("Entrenar el modelo"):
   etapar = 0.08
   lambdapar = 5
     
-  X = cemGUM1.drop(['Fecha','Tipo de Cemento','Molino','R1D','R3D','R7D','R28D'], axis=1)
-  y = cemGUM1['R1D']
+  X = st.session_state['cemGUM1'].drop(['Fecha','Tipo de Cemento','Molino','R1D','R3D','R7D','R28D'], axis=1)
+  y = st.session_state['cemGUM1']['R1D']
   X_train, X_test, y_train, y_test=train_test_split(X,y,test_size=0.1)
   modeloXGB = XGBRegressor(booster='gblinear', eta=etapar, reg_lambda=lambdapar)
   modeloXGB.fit(X_train, y_train)
