@@ -37,7 +37,7 @@ if st.button("Visualizar los Boxplots de la Resistencia"):
     axs[1,1].set_title("28 dias")
     st.pyplot(fig)
 
-if button("Entrenar el modelo"):
+if st.button("Entrenar el modelo"):
   etapar = 0.08
   lambdapar = 5
     
@@ -50,7 +50,7 @@ if button("Entrenar el modelo"):
   
   st.write(mt.mean_absolute_percentage_error(y_test, pred_test))
 
-if button("Descargar los datos"):
+if st.button("Descargar los datos"):
   datospred = pd.DataFrame({'Real':np.array(y_test), 'Pred':pred_test})
   buffer = io.BytesIO()
   
