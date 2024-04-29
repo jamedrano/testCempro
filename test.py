@@ -164,9 +164,11 @@ if uploaded_file is not None:
         pred_test =  modeloXGB.predict(X_test)
         st.write(mt.mean_absolute_percentage_error(y_test, pred_test))
         fig2, axs2 = plt.subplots()
-        fig2.set_size_inches(2,2)
+        fig2.set_size_inches(6,6)
         axs2.scatter(y_test, pred_test)
         st.pyplot(fig2)
+        datosprueba = pd.DataFrame({'ytest':y_test, 'pred':pred_test})
+        st.dataframe(datosprueba)
         
             
             
