@@ -150,4 +150,20 @@ if uploaded_file is not None:
             axs[1,1].boxplot(cemGUM1['R28D'])
             axs[1,1].set_title("28 dias")
             st.pyplot(fig)
+
+#=====================================================================================================
+## 3. Visualisation
+    with tab4:
+        etapar = 0.08
+        lambdapar = 5
+        X = cemGUM1.drop(['Fecha','Tipo de Cemento','Molino','R1D','R3D','R7D','R28D'], axis=1)
+        y = cemGUM1['R1D']
+        X_train, X_test, y_train, y_test=train_test_split(X,y,test_size=0.1)
+        modeloXGB = XGBRegressor(booster='gblinear', eta=etapar, reg_lambda=lambdapar)
+        modeloXGB.fit(X_train, y_train)
+        pred_test =  modeloXGB.predict(X_test)
+        st.write(mt.mean_absolute_percentage_error(y_test, pred_test))
+        fig2 = plt.scatter(y_test, pred_test)
+        st.pyplot(fig2)
+            
             
