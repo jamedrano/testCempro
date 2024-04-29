@@ -14,10 +14,11 @@ if st.button("Cargar el archivo de datos para entrenar el modelo"):
 
   uploaded_file = st.file_uploader("Seleccionar el archivo de Excel con los datos")
   if uploaded_file is not None:
-      cemento = pd.read_excel(uploaded_file, sheet_name="DATOS 2")
-      cemento.columns = cemento.columns.str.strip()
-      cemento["Tipo de Cemento"] = cemento["Tipo de Cemento"].str.strip()
-      cemento['Molino'] = cemento['Molino'].str.strip()
+      if 'cemento' not in st.session_state:
+        st.session_state['cemento'] = pd.read_excel(uploaded_file, sheet_name="DATOS 2")
+      st.session_state['cemento'].columns = st.session_state['cemento'].columns.str.strip()
+      st.session_state['cemento']["Tipo de Cemento"] = st.session_state['cemento']["Tipo de Cemento"].str.strip()
+      st.session_state['cemento']['Molino'] = st.session_state['cemento']['Molino'].str.strip
 
       if 'cemGUM1' not in st.session_state:    
         st.session_state['cemGUM1'] = cemento[(cemento['Tipo de Cemento']=="Cemento GU") & (cemento['Molino']=="Molino 1")]
