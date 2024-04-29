@@ -6,4 +6,5 @@ numba
 scikit-learn
 openpyxl
 xlsxwriter
+pygwalker
 
