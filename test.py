@@ -139,7 +139,7 @@ if uploaded_file is not None:
     desplegar()
    
   with tab5:
-   
+   @st.cache_data(experimental_allow_widgets=True)
    def to_excel(df):
     output = BytesIO()
     writer = pd.ExcelWriter(output, engine='xlsxwriter')
@@ -148,7 +148,7 @@ if uploaded_file is not None:
     worksheet = writer.sheets['Sheet1']
     format1 = workbook.add_format({'num_format': '0.00'}) 
     worksheet.set_column('A:A', None, format1)  
-    writer.save()
+    writer.close()
     processed_data = output.getvalue()
     return processed_data
     
