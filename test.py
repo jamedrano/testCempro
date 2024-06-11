@@ -14,6 +14,8 @@ from xgboost import XGBClassifier
 from sklearn.model_selection import train_test_split
 import sklearn.metrics as mt
 
+import pickle
+
  
 
 st.set_page_config(page_title='Modelo Predictivo Resistencia a la Compresión CEMPRO', page_icon=None, layout="wide")
